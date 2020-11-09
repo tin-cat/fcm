@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Kerox\Fcm\Model\Message;
 
-class Options implements \JsonSerializable
+class FcmOptions implements \JsonSerializable
 {
-    /**
-     * @var string|null
-     */
-    private $analyticsLabel;
+    private ?string $analyticsLabel = null;
 
     public function setAnalyticsLabel(string $analyticsLabel): self
     {

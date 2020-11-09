@@ -6,58 +6,24 @@ namespace Kerox\Fcm\Model\Message;
 
 use Kerox\Fcm\Helper\ValidatorTrait;
 use Kerox\Fcm\Model\Message\Notification\AndroidNotification;
-use Kerox\Fcm\Model\Message\Options\AndroidOptions;
+use Kerox\Fcm\Model\Message\Options\AndroidFcmOptions;
 
-class Android implements \JsonSerializable
+class AndroidConfig implements \JsonSerializable
 {
     use ValidatorTrait;
 
     public const PRIORITY_NORMAL = 'normal';
     public const PRIORITY_HIGH = 'high';
 
-    /**
-     * @var string|null
-     */
-    private $collapseKey;
+    private ?string $collapseKey = null;
+    private string $priority = self::PRIORITY_NORMAL;
+    private ?string $ttl = null;
+    private ?string $restrictedPackageName = null;
+    private array $data = [];
+    private ?AndroidNotification $notification = null;
+    private ?AndroidFcmOptions $fcmOptions = null;
+    private ?bool $directBootOk = null;
 
-    /**
-     * @var string
-     */
-    private $priority = self::PRIORITY_NORMAL;
-
-    /**
-     * @var string|null
-     */
-    private $ttl;
-
-    /**
-     * @var string|null
-     */
-    private $restrictedPackageName;
-
-    /**
-     * @var array
-     */
-    private $data = [];
-
-    /**
-     * @var \Kerox\Fcm\Model\Message\Notification\AndroidNotification|null
-     */
-    private $notification;
-
-    /**
-     * @var \Kerox\Fcm\Model\Message\Options\AndroidOptions
-     */
-    private $options;
-
-    /**
-     * @var bool|null
-     */
-    private $directBootOk;
-
-    /**
-     * @return \Kerox\Fcm\Model\Message\Android
-     */
     public function setCollapseKey(string $collapseKey): self
     {
         $this->collapseKey = $collapseKey;
@@ -65,9 +31,6 @@ class Android implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Android
-     */
     public function setPriority(string $priority): self
     {
         $this->priority = $priority;
@@ -75,9 +38,6 @@ class Android implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Android
-     */
     public function setTtl(string $ttl): self
     {
         $this->isValidTtl($ttl);
@@ -87,9 +47,6 @@ class Android implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Android
-     */
     public function setRestrictedPackageName(string $restrictedPackageName): self
     {
         $this->restrictedPackageName = $restrictedPackageName;
@@ -97,9 +54,6 @@ class Android implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Android
-     */
     public function setData(array $data): self
     {
         $this->isValidData($data);
@@ -109,9 +63,6 @@ class Android implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Android
-     */
     public function setNotification(AndroidNotification $notification): self
     {
         $this->notification = $notification;
@@ -119,19 +70,13 @@ class Android implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Android
-     */
-    public function setOptions(AndroidOptions $options): self
+    public function setFcmOptions(AndroidFcmOptions $fcmOptions): self
     {
-        $this->options = $options;
+        $this->fcmOptions = $fcmOptions;
 
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Android
-     */
     public function setDirectBootOk(bool $directBootOk): self
     {
         $this->directBootOk = $directBootOk;
@@ -148,7 +93,7 @@ class Android implements \JsonSerializable
             'restricted_package_name' => $this->restrictedPackageName,
             'data' => $this->data,
             'notification' => $this->notification,
-            'fcm_options' => $this->options,
+            'fcm_options' => $this->fcmOptions,
             'direct_boot_ok' => $this->directBootOk,
         ];
 

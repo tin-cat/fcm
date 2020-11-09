@@ -6,17 +6,10 @@ namespace Kerox\Fcm\Model\Message;
 
 abstract class AbstractNotification implements NotificationInterface, \JsonSerializable
 {
-    /**
-     * @var string|null
-     */
-    protected $title;
+    protected string $title;
+    protected ?string $body = null;
 
-    /**
-     * @var string|null
-     */
-    protected $body;
-
-    abstract public function setBody(string $body);
+    abstract public function setBody(string $body): self;
 
     public function toArray(): array
     {

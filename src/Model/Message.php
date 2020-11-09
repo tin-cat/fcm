@@ -6,70 +6,29 @@ namespace Kerox\Fcm\Model;
 
 use Kerox\Fcm\Helper\UtilityTrait;
 use Kerox\Fcm\Helper\ValidatorTrait;
-use Kerox\Fcm\Model\Message\Android;
-use Kerox\Fcm\Model\Message\Apns;
+use Kerox\Fcm\Model\Message\AndroidConfig;
+use Kerox\Fcm\Model\Message\ApnsConfig;
 use Kerox\Fcm\Model\Message\Notification;
-use Kerox\Fcm\Model\Message\Options;
-use Kerox\Fcm\Model\Message\Webpush;
+use Kerox\Fcm\Model\Message\FcmOptions;
+use Kerox\Fcm\Model\Message\WebpushConfig;
 
 class Message implements \JsonSerializable
 {
     use UtilityTrait;
     use ValidatorTrait;
 
-    /**
-     * @var string|null
-     */
-    private $name;
+    private ?string $name = null;
+    private array $data = [];
+    private ?Notification $notification = null;
+    private ?AndroidConfig $android = null;
+    private ?WebpushConfig $webpush = null;
+    private ?ApnsConfig $apns = null;
+    private ?FcmOptions $fcmOptions = null;
+    private ?string $token = null;
+    private ?string $topic = null;
+    private ?string $condition = null;
 
     /**
-     * @var array
-     */
-    private $data = [];
-
-    /**
-     * @var \Kerox\Fcm\Model\Message\Notification
-     */
-    private $notification;
-
-    /**
-     * @var \Kerox\Fcm\Model\Message\Android
-     */
-    private $android;
-
-    /**
-     * @var \Kerox\Fcm\Model\Message\Webpush
-     */
-    private $webpush;
-
-    /**
-     * @var \Kerox\Fcm\Model\Message\Apns
-     */
-    private $apns;
-
-    /**
-     * @var string|null
-     */
-    private $token;
-
-    /**
-     * @var \Kerox\Fcm\Model\Message\Options|null
-     */
-    private $options;
-
-    /**
-     * @var string|null
-     */
-    protected $topic;
-
-    /**
-     * @var string|null
-     */
-    protected $condition;
-
-    /**
-     * Message constructor.
-     *
      * @param \Kerox\Fcm\Model\Message\Notification|string $message
      *
      * @throws \Exception
@@ -94,9 +53,6 @@ class Message implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message
-     */
     public function setData(array $data): self
     {
         $this->isValidData($data);
@@ -106,46 +62,34 @@ class Message implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message
-     */
-    public function setAndroid(Android $android): self
+    public function setAndroid(AndroidConfig $android): self
     {
         $this->android = $android;
 
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message
-     */
-    public function setWebpush(Webpush $webpush): self
+    public function setWebpush(WebpushConfig $webpush): self
     {
         $this->webpush = $webpush;
 
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message
-     */
-    public function setApns(Apns $apns): self
+    public function setApns(ApnsConfig $apns): self
     {
         $this->apns = $apns;
 
         return $this;
     }
 
-    public function setOptions(Options $options): self
+    public function setFcmOptions(FcmOptions $fcmOptions): self
     {
-        $this->options = $options;
+        $this->fcmOptions = $fcmOptions;
 
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message
-     */
     public function setToken(string $token): self
     {
         $this->topic = $this->condition = null;
@@ -154,9 +98,6 @@ class Message implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message
-     */
     public function setTopic(string $topic): self
     {
         $this->isValidTopicName($topic);
@@ -167,9 +108,6 @@ class Message implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message
-     */
     public function setCondition(string $condition): self
     {
         $this->token = $this->topic = null;
@@ -187,7 +125,7 @@ class Message implements \JsonSerializable
             'android' => $this->android,
             'webpush' => $this->webpush,
             'apns' => $this->apns,
-            'fcm_options' => $this->options,
+            'fcm_options' => $this->fcmOptions,
             'token' => $this->token,
             'topic' => $this->topic,
             'condition' => $this->condition,

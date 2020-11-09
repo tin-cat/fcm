@@ -6,29 +6,11 @@ namespace Kerox\Fcm\Model\Message\Notification\AndroidNotification;
 
 class Color implements \JsonSerializable
 {
-    /**
-     * @var float
-     */
-    private $red;
+    private float $red;
+    private float $green;
+    private float $blue;
+    private float $alpha;
 
-    /**
-     * @var float
-     */
-    private $green;
-
-    /**
-     * @var float
-     */
-    private $blue;
-
-    /**
-     * @var float
-     */
-    private $alpha;
-
-    /**
-     * Color constructor.
-     */
     public function __construct(float $red, float $green, float $blue, float $alpha)
     {
         $this->red = $this->isValidValue($red);

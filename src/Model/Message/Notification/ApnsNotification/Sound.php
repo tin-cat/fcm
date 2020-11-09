@@ -8,24 +8,10 @@ class Sound implements \JsonSerializable
 {
     public const DEFAULT_NAME = 'default';
 
-    /**
-     * @var int
-     */
-    private $critical = 0;
+    private int $critical = 0;
+    private string $name = self::DEFAULT_NAME;
+    private float $volume = 0.0;
 
-    /**
-     * @var string
-     */
-    private $name = self::DEFAULT_NAME;
-
-    /**
-     * @var float
-     */
-    private $volume = 0.0;
-
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\ApnsNotification\Sound
-     */
     public function isCritical(bool $critical = true): self
     {
         $this->critical = (int) $critical;
@@ -33,9 +19,6 @@ class Sound implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\ApnsNotification\Sound
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -43,9 +26,6 @@ class Sound implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\ApnsNotification\Sound
-     */
     public function setVolume(float $volume): self
     {
         $this->volume = $volume;

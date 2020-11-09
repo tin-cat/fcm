@@ -6,30 +6,16 @@ namespace Kerox\Fcm\Model\Message;
 
 use Kerox\Fcm\Helper\ValidatorTrait;
 use Kerox\Fcm\Model\Message\Notification\ApnsNotification;
-use Kerox\Fcm\Model\Message\Options\ApnsOptions;
+use Kerox\Fcm\Model\Message\Options\ApnsFcmOptions;
 
-class Apns implements \JsonSerializable
+class ApnsConfig implements \JsonSerializable
 {
     use ValidatorTrait;
 
-    /**
-     * @var array
-     */
-    private $headers = [];
+    private array $headers = [];
+    private ?ApnsNotification $payload = null;
+    private ?ApnsFcmOptions $fcmOptions = null;
 
-    /**
-     * @var \Kerox\Fcm\Model\Message\Notification\ApnsNotification|null
-     */
-    private $payload;
-
-    /**
-     * @var \Kerox\Fcm\Model\Message\Options\ApnsOptions|null
-     */
-    private $options;
-
-    /**
-     * @return \Kerox\Fcm\Model\Message\Apns
-     */
     public function setHeaders(array $headers): self
     {
         $this->isValidData($headers);
@@ -39,9 +25,6 @@ class Apns implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Apns
-     */
     public function setPayload(ApnsNotification $payload): self
     {
         $this->payload = $payload;
@@ -49,12 +32,9 @@ class Apns implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Apns
-     */
-    public function setOptions(ApnsOptions $options): self
+    public function setFcmOptions(ApnsFcmOptions $fcmOptions): self
     {
-        $this->options = $options;
+        $this->fcmOptions = $fcmOptions;
 
         return $this;
     }
@@ -64,7 +44,7 @@ class Apns implements \JsonSerializable
         $array = [
             'headers' => $this->headers,
             'payload' => $this->payload,
-            'fcm_options' => $this->options,
+            'fcm_options' => $this->fcmOptions,
         ];
 
         return array_filter($array);

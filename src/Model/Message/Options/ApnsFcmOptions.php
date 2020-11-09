@@ -4,21 +4,12 @@ declare(strict_types=1);
 
 namespace Kerox\Fcm\Model\Message\Options;
 
-use Kerox\Fcm\Model\Message\Options;
+use Kerox\Fcm\Model\Message\FcmOptions;
 
-/**
- * Class ApnsOptions.
- */
-class ApnsOptions extends Options
+class ApnsFcmOptions extends FcmOptions
 {
-    /**
-     * @var string|null
-     */
-    private $image;
+    private ?string $image = null;
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Options\ApnsOptions
-     */
     public function setImage(string $image): self
     {
         $this->image = $image;

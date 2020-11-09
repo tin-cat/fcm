@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace Kerox\Fcm\Api;
 
+use Fig\Http\Message\RequestMethodInterface;
 use Kerox\Fcm\Model\Message;
-use Kerox\Fcm\Request\SendRequest;
-use Kerox\Fcm\Response\SendResponse;
+use Psr\Http\Message\ResponseInterface;
 
 class Send extends AbstractApi
 {
-    public function message(Message $message, bool $validateOnly = false): SendResponse
+    public function message(Message $message, bool $validateOnly = false): ResponseInterface
     {
         $uri = sprintf('%s/messages:send', $this->projectId);
 
-        $request = new SendRequest($this->oauthToken, $message, $validateOnly);
-        $response = $this->client->post($uri, $request->build());
+        $request = $this->createRequest(RequestMethodInterface::METHOD_POST, $uri, [
+            'message' => $message,
+            'validate_only' => $validateOnly,
+        ]);
 
-        return new SendResponse($response);
+        return $this->client->sendRequest($request);
     }
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Kerox\Fcm\Tests\Model;
 
 use Kerox\Fcm\Model\Message;
-use Kerox\Fcm\Model\Message\Android;
-use Kerox\Fcm\Model\Message\Apns;
+use Kerox\Fcm\Model\Message\AndroidConfig;
+use Kerox\Fcm\Model\Message\ApnsConfig;
 use Kerox\Fcm\Model\Message\Condition;
 use Kerox\Fcm\Model\Message\Notification;
 use Kerox\Fcm\Model\Message\Notification\AndroidNotification;
@@ -16,26 +16,35 @@ use Kerox\Fcm\Model\Message\Notification\ApnsNotification;
 use Kerox\Fcm\Model\Message\Notification\ApnsNotification\Alert;
 use Kerox\Fcm\Model\Message\Notification\ApnsNotification\Sound;
 use Kerox\Fcm\Model\Message\Notification\WebpushNotification;
-use Kerox\Fcm\Model\Message\Options;
-use Kerox\Fcm\Model\Message\Options\AndroidOptions;
-use Kerox\Fcm\Model\Message\Options\ApnsOptions;
-use Kerox\Fcm\Model\Message\Options\WebpushOptions;
-use Kerox\Fcm\Model\Message\Webpush;
+use Kerox\Fcm\Model\Message\FcmOptions;
+use Kerox\Fcm\Model\Message\Options\AndroidFcmOptions;
+use Kerox\Fcm\Model\Message\Options\ApnsFcmOptions;
+use Kerox\Fcm\Model\Message\Options\WebpushFcmOptions;
+use Kerox\Fcm\Model\Message\WebpushConfig;
 use PHPUnit\Framework\TestCase;
 
 class MessageTest extends TestCase
 {
     public function testMessage(): void
     {
+        $notification = new Notification('Breaking News');
+        $notification->setBody('New news story available.');
+
+        $message = new Message($notification);
+        $message->setName('fcm');
+        $message->setData([
+            'story_id' => 'story_12345',
+        ]);
+
         $message = (new Message((new Notification('Breaking News'))->setBody('New news story available.')))
             ->setName('fcm')
             ->setData([
                 'story_id' => 'story_12345',
             ])
             ->setAndroid(
-                (new Android())
+                (new AndroidConfig())
                     ->setCollapseKey('collapse_key')
-                    ->setPriority(Android::PRIORITY_NORMAL)
+                    ->setPriority(AndroidConfig::PRIORITY_NORMAL)
                     ->setTtl('3.000000001s')
                     ->setRestrictedPackageName('fcm')
                     ->setData([
@@ -82,14 +91,14 @@ class MessageTest extends TestCase
                             )
                             ->setImage('https://example.com/image.jpg')
                     )
-                    ->setOptions(
-                        (new AndroidOptions())
+                    ->setFcmOptions(
+                        (new AndroidFcmOptions())
                             ->setAnalyticsLabel('android')
                     )
                     ->setDirectBootOk(true)
             )
             ->setWebpush(
-                (new Webpush())
+                (new WebpushConfig())
                     ->setHeaders([
                         'name' => 'wrench',
                         'mass' => '1.3kg',
@@ -130,14 +139,14 @@ class MessageTest extends TestCase
                             ])
                             ->setSticky(true)
                     )
-                    ->setOptions(
-                        (new WebpushOptions())
+                    ->setFcmOptions(
+                        (new WebpushFcmOptions())
                             ->setAnalyticsLabel('webpush')
                             ->setLink('https://example.com')
                     )
             )
             ->setApns(
-                (new Apns())
+                (new ApnsConfig())
                     ->setHeaders([
                         'name' => 'wrench',
                         'mass' => '1.3kg',
@@ -146,8 +155,7 @@ class MessageTest extends TestCase
                     ->setPayload(
                         (new ApnsNotification())
                             ->setAlert(
-                                (new Alert())
-                                    ->setTitle('Breaking News')
+                                (new Alert('Breaking News'))
                                     ->setBody('Check out the Top Story')
                                     ->setSubTitle('Unbelievable')
                                     ->setLaunchImage('launch-image.jpg')
@@ -163,7 +171,6 @@ class MessageTest extends TestCase
                                     ->setLocArgs([
                                         'loc-args',
                                     ])
-                                    ->setActionLocKey('action-loc-key')
                             )
                             ->setBadge(true)
                             ->setSound(
@@ -178,8 +185,8 @@ class MessageTest extends TestCase
                             ->setThreadId('thread-id')
                             ->setTargetContentId('target-content-id')
                     )
-                    ->setOptions(
-                        (new ApnsOptions())
+                    ->setFcmOptions(
+                        (new ApnsFcmOptions())
                             ->setAnalyticsLabel('apns')
                             ->setImage('https://example.com/image.jpg')
                     )
@@ -187,24 +194,20 @@ class MessageTest extends TestCase
             ->setCondition((new Condition())->and('TopicA', static function () {
                 return (new Condition())->or('TopicB', 'TopicC');
             }))
-            ->setOptions(
-                (new Options())
+            ->setFcmOptions(
+                (new FcmOptions())
                     ->setAnalyticsLabel('fcm')
-            )
-        ;
+            );
 
         self::assertJsonStringEqualsJsonFile(__DIR__ . '/../Mocks/Model/message.json', json_encode($message));
     }
 
     public function testMessageWithTopic(): void
     {
-        $message = (new Message('Breaking News'))
-            ->setName('fcm')
-            ->setData([
-                'story_id' => 'story_12345',
-            ])
-            ->setTopic('TopicA')
-        ;
+        $message = new Message('Breaking News');
+        $message->setName('fcm');
+        $message->setData(['story_id' => 'story_12345',]);
+        $message->setTopic('TopicA');
 
         self::assertJsonStringEqualsJsonFile(__DIR__ . '/../Mocks/Model/message_with_topic.json', json_encode($message));
     }

@@ -21,124 +21,30 @@ class AndroidNotification extends AbstractNotification
     public const VISIBILITY_PUBLIC = 'PUBLIC';
     public const VISIBILITY_SECRET = 'SECRET';
 
-    /**
-     * @var string|null
-     */
-    private $icon;
+    private ?string $icon = null;
+    private ?string $color = null;
+    private ?string $sound = null;
+    private ?string $tag = null;
+    private ?string $clickAction = null;
+    private ?string $bodyLocKey = null;
+    private ?string $bodyLocArgs = null;
+    private ?string $titleLocKey = null;
+    private ?string $titleLocArgs = null;
+    private ?string $channelId = null;
+    private ?string $ticker = null;
+    private bool $sticky = false;
+    private ?string $eventTime = null;
+    private bool $localOnly = false;
+    private string $notificationPriority = self::PRIORITY_UNSPECIFIED;
+    private bool $defaultSound = false;
+    private bool $defaultVibrateTimings = false;
+    private bool $defaultLightSettings = false;
+    private array $vibrateTimings = [];
+    private string $visibility = self::VISIBILITY_UNSPECIFIED;
+    private int $notificationCount = 0;
+    private ?LightSettings $lightSettings = null;
+    private ?string $image = null;
 
-    /**
-     * @var string|null
-     */
-    private $color;
-
-    /**
-     * @var string|null
-     */
-    private $sound;
-
-    /**
-     * @var string|null
-     */
-    private $tag;
-
-    /**
-     * @var string|null
-     */
-    private $clickAction;
-
-    /**
-     * @var string|null
-     */
-    private $bodyLocKey;
-
-    /**
-     * @var string|null
-     */
-    private $bodyLocArgs;
-
-    /**
-     * @var string|null
-     */
-    private $titleLocKey;
-
-    /**
-     * @var string|null
-     */
-    private $titleLocArgs;
-
-    /**
-     * @var string|null
-     */
-    private $channelId;
-
-    /**
-     * @var string|null
-     */
-    private $ticker;
-
-    /**
-     * @var bool
-     */
-    private $sticky = false;
-
-    /**
-     * @var string|null
-     */
-    private $eventTime;
-
-    /**
-     * @var bool
-     */
-    private $localOnly = false;
-
-    /**
-     * @var string|null
-     */
-    private $notificationPriority;
-
-    /**
-     * @var bool
-     */
-    private $defaultSound = false;
-
-    /**
-     * @var bool
-     */
-    private $defaultVibrateTimings = false;
-
-    /**
-     * @var bool
-     */
-    private $defaultLightSettings = false;
-
-    /**
-     * @var array
-     */
-    private $vibrateTimings = [];
-
-    /**
-     * @var string|null
-     */
-    private $visibility;
-
-    /**
-     * @var int
-     */
-    private $notificationCount = 0;
-
-    /**
-     * @var \Kerox\Fcm\Model\Message\Notification\AndroidNotification\LightSettings|null
-     */
-    private $lightSettings;
-
-    /**
-     * @var string|null
-     */
-    private $image;
-
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -146,9 +52,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setBody(string $body): self
     {
         $this->body = $body;
@@ -156,9 +59,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setIcon(string $icon): self
     {
         $this->icon = $icon;
@@ -166,9 +66,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setColor(string $color): self
     {
         $this->color = $color;
@@ -176,9 +73,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setSound(string $sound): self
     {
         $this->sound = $sound;
@@ -186,9 +80,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setTag(string $tag): self
     {
         $this->tag = $tag;
@@ -196,9 +87,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setClickAction(string $clickAction): self
     {
         $this->clickAction = $clickAction;
@@ -206,9 +94,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setBodyLocKey(string $bodyLocKey): self
     {
         $this->bodyLocKey = $bodyLocKey;
@@ -216,9 +101,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setBodyLocArgs(string $bodyLocArgs): self
     {
         $this->bodyLocArgs = $bodyLocArgs;
@@ -226,9 +108,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setTitleLocKey(string $titleLocKey): self
     {
         $this->titleLocKey = $titleLocKey;
@@ -236,9 +115,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setTitleLocArgs(string $titleLocArgs): self
     {
         $this->titleLocArgs = $titleLocArgs;
@@ -246,9 +122,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setChannelId(string $channelId): self
     {
         $this->channelId = $channelId;
@@ -256,9 +129,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setTicker(string $ticker): self
     {
         $this->ticker = $ticker;
@@ -266,9 +136,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setSticky(bool $sticky): self
     {
         $this->sticky = $sticky;
@@ -276,9 +143,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setEventTime(string $eventTime): self
     {
         $this->eventTime = $eventTime;
@@ -286,9 +150,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setLocalOnly(bool $localOnly): self
     {
         $this->localOnly = $localOnly;
@@ -296,9 +157,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setNotificationPriority(string $notificationPriority): self
     {
         $this->notificationPriority = $notificationPriority;
@@ -306,9 +164,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setDefaultSound(bool $defaultSound): self
     {
         $this->defaultSound = $defaultSound;
@@ -316,9 +171,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setDefaultVibrateTimings(bool $defaultVibrateTimings): self
     {
         $this->defaultVibrateTimings = $defaultVibrateTimings;
@@ -326,9 +178,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setDefaultLightSettings(bool $defaultLightSettings): self
     {
         $this->defaultLightSettings = $defaultLightSettings;
@@ -336,9 +185,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setVibrateTimings(array $vibrateTimings): self
     {
         $this->vibrateTimings = $vibrateTimings;
@@ -346,9 +192,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setVisibility(string $visibility): self
     {
         $this->visibility = $visibility;
@@ -356,9 +199,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setNotificationCount(int $notificationCount): self
     {
         $this->notificationCount = $notificationCount;
@@ -366,9 +206,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setLightSettings(LightSettings $lightSettings): self
     {
         $this->lightSettings = $lightSettings;
@@ -376,9 +213,6 @@ class AndroidNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\AndroidNotification
-     */
     public function setImage(string $image): self
     {
         $this->image = $image;

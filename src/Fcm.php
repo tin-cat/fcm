@@ -4,48 +4,29 @@ declare(strict_types=1);
 
 namespace Kerox\Fcm;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use Kerox\Fcm\Api\Send;
+use Psr\Http\Client\ClientInterface;
 
 class Fcm
 {
-    public const API_URL = 'https://fcm.googleapis.com/';
+    public const API_URL = 'https://fcm.googleapis.com';
     public const API_VERSION = 'v1';
 
-    /**
-     * @var string
-     */
-    protected $oauthToken;
+    private string $apiKey;
+    private string $oauthToken;
+    private string $projectId;
+    private ClientInterface $client;
 
-    /**
-     * @var string
-     */
-    protected $projectId;
-
-    /**
-     * @var \GuzzleHttp\ClientInterface
-     */
-    protected $client;
-
-    /**
-     * Fcm constructor.
-     */
-    public function __construct(string $oauthToken, string $projectId, ?ClientInterface $client = null)
+    public function __construct(string $apiKey, string $oauthToken, string $projectId, ClientInterface $client)
     {
+        $this->apiKey = $apiKey;
         $this->oauthToken = $oauthToken;
         $this->projectId = $projectId;
-
-        if ($client === null) {
-            $client = new Client([
-                'base_uri' => self::API_URL . self::API_VERSION . '/projects/',
-            ]);
-        }
         $this->client = $client;
     }
 
     public function send(): Send
     {
-        return new Send($this->oauthToken, $this->projectId, $this->client);
+        return new Send($this->apiKey, $this->oauthToken, $this->projectId, $this->client);
     }
 }

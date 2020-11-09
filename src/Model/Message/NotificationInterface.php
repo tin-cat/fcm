@@ -6,5 +6,5 @@ namespace Kerox\Fcm\Model\Message;
 
 interface NotificationInterface
 {
-    public function setBody(string $body);
+    public function setBody(string $body): self;
 }

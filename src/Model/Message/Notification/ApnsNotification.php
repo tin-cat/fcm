@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kerox\Fcm\Model\Message\Notification;
 
-use InvalidArgumentException;
 use Kerox\Fcm\Helper\UtilityTrait;
 use Kerox\Fcm\Model\Message\Notification\ApnsNotification\Alert;
 use Kerox\Fcm\Model\Message\Notification\ApnsNotification\Sound;
@@ -13,59 +12,26 @@ class ApnsNotification implements \JsonSerializable
 {
     use UtilityTrait;
 
-    /**
-     * @var string|\Kerox\Fcm\Model\Message\Notification\ApnsNotification\Alert|null
-     */
-    private $alert;
-
-    /**
-     * @var \Kerox\Fcm\Model\Message\Notification\ApnsNotification\Sound|string
-     */
-    private $sound = Sound::DEFAULT_NAME;
-
-    /**
-     * @var int
-     */
-    private $badge = 1;
-
-    /**
-     * @var int
-     */
-    private $contentAvailable = 0;
-
-    /**
-     * @var string|null
-     */
-    private $category;
-
-    /**
-     * @var string|null
-     */
-    private $threadId;
-
-    /**
-     * @var int
-     */
-    private $mutableContent = 0;
-
-    /**
-     * @var string|null
-     */
-    private $targetContentId;
+    private ?Alert $alert = null;
+    private string $sound = Sound::DEFAULT_NAME;
+    private int $badge = 1;
+    private int $contentAvailable = 0;
+    private ?string $category = null;
+    private ?string $threadId = null;
+    private int $mutableContent = 0;
+    private ?string $targetContentId = null;
 
     /**
      * @param string|\Kerox\Fcm\Model\Message\Notification\ApnsNotification\Alert $alert
-     *
-     * @return \Kerox\Fcm\Model\Message\Notification\ApnsNotification
      */
     public function setAlert($alert): self
     {
         if (\is_string($alert)) {
-            $alert = (new Alert())->setTitle($alert);
+            $alert = new Alert($alert);
         }
 
         if (!$alert instanceof Alert) {
-            throw new InvalidArgumentException(sprintf('alert must be a string or an instance of "%s".', Alert::class));
+            throw new \InvalidArgumentException(sprintf('alert must be a string or an instance of "%s".', Alert::class));
         }
 
         $this->alert = $alert;
@@ -75,8 +41,6 @@ class ApnsNotification implements \JsonSerializable
 
     /**
      * @param \Kerox\Fcm\Model\Message\Notification\ApnsNotification\Sound|string $sound
-     *
-     * @return \Kerox\Fcm\Model\Message\Notification\ApnsNotification
      */
     public function setSound($sound): self
     {
@@ -85,9 +49,6 @@ class ApnsNotification implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\ApnsNotification
-     */
     public function setBadge(bool $badge): self
     {
         $this->badge = (int) $badge;
@@ -95,9 +56,6 @@ class ApnsNotification implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\ApnsNotification
-     */
     public function setContentAvailable(bool $contentAvailable): self
     {
         $this->contentAvailable = (int) $contentAvailable;
@@ -105,9 +63,6 @@ class ApnsNotification implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\ApnsNotification
-     */
     public function setCategory(string $category): self
     {
         $this->category = $category;
@@ -115,9 +70,6 @@ class ApnsNotification implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\ApnsNotification
-     */
     public function setThreadId(string $threadId): self
     {
         $this->threadId = $threadId;
@@ -125,9 +77,6 @@ class ApnsNotification implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\ApnsNotification
-     */
     public function isMutableContent(bool $mutableContent = true): self
     {
         $this->mutableContent = (int) $mutableContent;
@@ -135,9 +84,6 @@ class ApnsNotification implements \JsonSerializable
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\ApnsNotification
-     */
     public function setTargetContentId(string $targetContentId): self
     {
         $this->targetContentId = $targetContentId;

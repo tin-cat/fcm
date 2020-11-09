@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Kerox\Fcm\Tests\Api;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
 use Kerox\Fcm\Api\Send;
 use Kerox\Fcm\Model\Message;
 use PHPUnit\Framework\TestCase;

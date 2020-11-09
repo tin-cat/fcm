@@ -6,26 +6,10 @@ namespace Kerox\Fcm\Model\Message\Notification\AndroidNotification;
 
 class LightSettings implements \JsonSerializable
 {
-    /**
-     * @var \Kerox\Fcm\Model\Message\Notification\AndroidNotification\Color
-     */
-    private $color;
+    private Color $color;
+    private string $lightOnDuration;
+    private string $lightOffDuration;
 
-    /**
-     * @var string
-     */
-    private $lightOnDuration;
-
-    /**
-     * @var string
-     */
-    private $lightOffDuration;
-
-    /**
-     * LightSettings constructor.
-     *
-     * @param \Kerox\Fcm\Model\Message\Notification\AndroidNotification\Color $color
-     */
     public function __construct(Color $color, string $lightOnDuration, string $lightOffDuration)
     {
         $this->color = $color;

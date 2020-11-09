@@ -19,84 +19,27 @@ class WebpushNotification extends AbstractNotification
     public const DIR_LTR = 'ltr';
     public const DIR_RTL = 'rtl';
 
-    /**
-     * @var string
-     */
-    protected $permission = self::PERMISSION_DEFAULT;
-
-    /**
-     * @var array
-     */
-    protected $actions = [];
-
-    /**
-     * @var string|null
-     */
-    protected $badge;
+    private string $permission = self::PERMISSION_DEFAULT;
+    private array $actions = [];
+    private ?string $badge = null;
 
     /**
      * @var mixed
      */
-    protected $data;
+    private $data;
 
-    /**
-     * @var string
-     */
-    protected $dir = self::DIR_AUTO;
+    private string $dir = self::DIR_AUTO;
+    private ?string $lang = null;
+    private ?string $tag = null;
+    private ?string $icon = null;
+    private ?string $image = null;
+    private bool $renotify = false;
+    private bool $requireInteraction = false;
+    private bool $silent = false;
+    private ?int $timestamp = null;
+    private array $vibrate = [];
+    private bool $sticky = false;
 
-    /**
-     * @var string|null
-     */
-    protected $lang;
-
-    /**
-     * @var string|null
-     */
-    protected $tag;
-
-    /**
-     * @var string|null
-     */
-    protected $icon;
-
-    /**
-     * @var string|null
-     */
-    protected $image;
-
-    /**
-     * @var bool
-     */
-    protected $renotify = false;
-
-    /**
-     * @var bool
-     */
-    protected $requireInteraction = false;
-
-    /**
-     * @var bool
-     */
-    protected $silent = false;
-
-    /**
-     * @var int|null
-     */
-    protected $timestamp;
-
-    /**
-     * @var array
-     */
-    protected $vibrate = [];
-
-    /**
-     * @var bool
-     */
-    protected $sticky = false;
-
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\WebpushNotification
-     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -104,9 +47,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return \Kerox\Fcm\Model\Message\Notification\WebpushNotification
-     */
     public function setBody(string $body): self
     {
         $this->body = $body;
@@ -114,9 +54,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setPermission(string $permission): self
     {
         $this->permission = $permission;
@@ -124,9 +61,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setActions(array $actions): self
     {
         $this->actions = $actions;
@@ -134,9 +68,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setBadge(string $badge): self
     {
         $this->isValidUrl($badge);
@@ -148,8 +79,6 @@ class WebpushNotification extends AbstractNotification
 
     /**
      * @param mixed $data
-     *
-     * @return WebpushNotification
      */
     public function setData($data): self
     {
@@ -158,9 +87,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setDir(string $dir): self
     {
         $this->dir = $dir;
@@ -168,9 +94,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setLang(string $lang): self
     {
         $this->isValidLang($lang);
@@ -180,9 +103,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setTag(string $tag): self
     {
         $this->tag = $tag;
@@ -190,9 +110,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setIcon(string $icon): self
     {
         $this->isValidUrl($icon);
@@ -202,9 +119,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setImage(string $image): self
     {
         $this->isValidUrl($image);
@@ -214,9 +128,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setRenotify(bool $renotify): self
     {
         $this->renotify = $renotify;
@@ -224,9 +135,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setRequireInteraction(bool $requireInteraction): self
     {
         $this->requireInteraction = $requireInteraction;
@@ -234,9 +142,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setSilent(bool $silent): self
     {
         $this->silent = $silent;
@@ -244,9 +149,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setTimestamp(\DateTime $dateTime): self
     {
         $this->timestamp = $dateTime->getTimestamp();
@@ -254,9 +156,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setVibrate(array $vibratePattern): self
     {
         $this->isValidVibratePattern($vibratePattern);
@@ -266,9 +165,6 @@ class WebpushNotification extends AbstractNotification
         return $this;
     }
 
-    /**
-     * @return WebpushNotification
-     */
     public function setSticky(bool $sticky): self
     {
         $this->sticky = $sticky;
